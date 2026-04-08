@@ -4,7 +4,7 @@
 #include <pwm_z42.h>                // Biblioteca personalizada com funções de controle do TPM (Timer/PWM Module)
 
 // Define o valor do registrador MOD do TPM para configurar o período do PWM
-#define TPM_MODULE 2000         // Define a frequência do PWM fpwm = (TPM_CLK / (TPM_MODULE * PS))
+#define TPM_MODULE 1000         // Define a frequência do PWM fpwm = (TPM_CLK / (TPM_MODULE * PS))
 // Valores de duty cycle correspondentes a diferentes larguras de pulso
 
 
@@ -25,17 +25,13 @@ int main(void)
     pwm_tpm_Ch_Init(TPM2, 1, TPM_PWM_H, GPIOB, 19);
     // Define o valor do duty cycle: nesse caso, duty_100 (LED quase desligado)
    
-
+     pwm_tpm_CnV(TPM2, 0, 300);
+     pwm_tpm_CnV(TPM2, 1, 700);
 
     // Loop infinito
     for (;;)
     {
-        pwm_tpm_CnV(TPM2, 0, 2000);
-        pwm_tpm_CnV(TPM2, 1, 0);
-        k_msleep(2000);
-        pwm_tpm_CnV(TPM2, 0, 2000);
-        pwm_tpm_CnV(TPM2, 1, 2000);
-        k_msleep(2000);
+    
     }
 
     return 0;
