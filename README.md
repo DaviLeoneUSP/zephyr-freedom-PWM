@@ -1,1 +1,1 @@
-Validação de hardwre. Ignorar códigos, somente video.
+Um motor variando com pwm.

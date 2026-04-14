@@ -6,7 +6,7 @@
 // Define o valor do registrador MOD do TPM para configurar o período do PWM
 #define TPM_MODULE 1000         // Define a frequência do PWM fpwm = (TPM_CLK / (TPM_MODULE * PS))
 // Valores de duty cycle correspondentes a diferentes larguras de pulso
-
+uint16_t duty_50 = TPM_MODULE/2;
 
 int main(void)
 {
@@ -18,11 +18,12 @@ int main(void)
     // - prescaler de 1 a 128 (PS)
     // - modo de operação EDGE_PWM
     pwm_tpm_Init(TPM2, TPM_PLLFLL, TPM_MODULE, TPM_CLK, PS_128, EDGE_PWM);
-
-    // Inicializa o canal 0 do TPM2 para gerar sinal PWM na porta GPIOB_18
+    pwm_tpm_Init(TPM1, TPM_PLLFLL, TPM_MODULE, TPM_CLK, PS_128, EDGE_PWM);
+    // Inicializa ocanal 0 do TPM2 para gerar sinal PWM na porta GPIOB_18
     // - modo TPM_PWM_H (nível alto durante o pulso)
     pwm_tpm_Ch_Init(TPM2, 0, TPM_PWM_H, GPIOB, 18);
     pwm_tpm_Ch_Init(TPM2, 1, TPM_PWM_H, GPIOB, 19);
+    pwm_tpm_Ch_Init(TPM1, 0, TPM_PWM_H, GPIOB, 0);
     // Define o valor do duty cycle: nesse caso, duty_100 (LED quase desligado)
    
 
@@ -30,11 +31,14 @@ int main(void)
     // Loop infinito
     for (;;)
     {
-     pwm_tpm_CnV(TPM2, 0, 300);
-     pwm_tpm_CnV(TPM2, 1, 700);
-     k_msleep(1000);
-     pwm_tpm_CnV(TPM2, 0, 1000);
      pwm_tpm_CnV(TPM2, 1, 1000);
+     pwm_tpm_CnV(TPM2, 0, 0);
+     pwm_tpm_CnV(TPM1, 0, 1000);
+     k_msleep(1000);
+    
+     pwm_tpm_CnV(TPM2, 1, 1000);
+     pwm_tpm_CnV(TPM2, 0, 1000);
+     pwm_tpm_CnV(TPM1, 0, 0);
      k_msleep(1000);
     }
 
