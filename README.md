@@ -1,1 +1,1 @@
-Um motor variando com pwm.
+Motores variando em sincronia.
