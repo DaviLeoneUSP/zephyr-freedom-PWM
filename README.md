@@ -1,1 +1,1 @@
-LED laranja piscando com intervalo de 1 segundo.
+Validação de hardwre. Ignorar códigos, somente video.
